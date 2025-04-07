@@ -13,6 +13,10 @@ provider "hashicups" {
   password = "test123"
 }
 
+output "total_price" {
+  value = provider::hashicups::compute_tax(5.00, 0.085)
+}
+
 data "hashicups_coffees" "edu" {}
 
 resource "hashicups_order" "edu" {
