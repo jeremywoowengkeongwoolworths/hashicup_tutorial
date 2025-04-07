@@ -8,6 +8,7 @@ import (
 
 	"github.com/hashicorp-demoapp/hashicups-client-go"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -56,6 +57,12 @@ type orderItemCoffeeModel struct {
 // Metadata returns the resource type name.
 func (r *orderResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_order"
+}
+
+func (r *orderResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	// Retrieve import ID and save to id attribute
+	fmt.Println("calling import order")
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 // Schema defines the schema for the resource.
@@ -113,6 +120,7 @@ func (r *orderResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 // Create creates the resource and sets the initial Terraform state.
 func (r *orderResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 
+	fmt.Println("calling create order")
 	// Retrieve values from plan
 	var plan orderResourceModel
 	diags := req.Plan.Get(ctx, &plan)
@@ -171,6 +179,7 @@ func (r *orderResource) Create(ctx context.Context, req resource.CreateRequest, 
 // Read refreshes the Terraform state with the latest data.
 func (r *orderResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 
+	fmt.Println("calling read order")
 	// Get current state
 	var state orderResourceModel
 	diags := req.State.Get(ctx, &state)
@@ -216,6 +225,7 @@ func (r *orderResource) Read(ctx context.Context, req resource.ReadRequest, resp
 // Update updates the resource and sets the updated Terraform state on success.
 func (r *orderResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 
+	fmt.Println("calling update order")
 	// Retrieve values from plan
 	var plan orderResourceModel
 	diags := req.Plan.Get(ctx, &plan)
@@ -282,6 +292,8 @@ func (r *orderResource) Update(ctx context.Context, req resource.UpdateRequest, 
 
 // Delete deletes the resource and removes the Terraform state on success.
 func (r *orderResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
+	fmt.Println("calling delete order")
 
 	var state orderResourceModel
 	diags := req.State.Get(ctx, &state)
